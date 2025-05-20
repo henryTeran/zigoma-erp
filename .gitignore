@@ -1,11 +1,20 @@
+# Node
+node_modules/
+dist/
+.env
+
 # Python
 __pycache__/
 *.pyc
 env/
-venv/
+.venv/
 
-# Dotenv
-.env
+# Firebase / secrets
+backend/app/utils/*.json
 
-# Firebase service account
-*.json
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
