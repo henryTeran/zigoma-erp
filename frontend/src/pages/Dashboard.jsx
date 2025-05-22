@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../modules/auth/services/AuthContext";
 import { signOut } from "firebase/auth";
-import { auth } from "../providers/firebaseConfig";
+import { auth } from "../modules/auth/services/firebaseConfig";
 
 export default function Dashboard() {
   const { user } = useAuth();
