@@ -1,8 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/login";
+import Login from "./modules/auth/pages/Login";
 import Dashboard from "./pages/Dashboard";
-import PrivateRoute from "./routes/PrivateRoute";
-import { AuthProvider } from "./context/AuthContext";
+import PrivateRoute from "./shared/routes/PrivateRoute"
+import { AuthProvider } from "./modules/auth/services/AuthContext";
+import Signup from "./modules/auth/pages/Signup";
+import ForgotPassword from "./modules/auth/pages/ForgotPassword";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/recover-account" element={<ForgotPassword />} />
           <Route path="*" element={<Login />} />
         </Routes>
       </BrowserRouter>

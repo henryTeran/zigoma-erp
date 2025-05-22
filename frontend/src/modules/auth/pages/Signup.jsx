@@ -1,44 +1,28 @@
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { useState } from "react";
-import { auth } from "../providers/firebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { useSignup } from "../hooks/useSignup";
 
-export default function Login() {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
-  const navigate = useNavigate();
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      await signInWithEmailAndPassword(auth, email, pass);
-      navigate("/dashboard");
-    } catch (err) {
-      alert("Erreur : " + err.message);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      navigate("/dashboard");
-    } catch (err) {
-      alert("Erreur Google : " + err.message);
-    }
-  };
+export default function Signup() {
+  const {
+    email,
+    pass,
+    setEmail,
+    setPass,
+    handleSignup,
+    handleGoogleSignup,
+    remember,
+    setRemember,
+  } = useSignup();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-neutral-800">
-      <div className="w-full max-w-sm"> 
+      <div className="w-full max-w-sm">
         <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-2xs dark:bg-neutral-900 dark:border-neutral-700">
           <div className="p-4 sm:p-7">
             <div className="text-center">
-              <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Sign in</h1>
+              <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">Sign up</h1>
               <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
-                Don't have an account yet?
-                <a className="text-blue-600 decoration-2 hover:underline font-medium dark:text-blue-500" href="/signup">
-                  Sign up here
+                Already have an account?{" "}
+                <a className="text-blue-600 hover:underline font-medium dark:text-blue-500" href="/login">
+                  Sign in
                 </a>
               </p>
             </div>
@@ -46,7 +30,7 @@ export default function Login() {
             <div className="mt-5">
               <button
                 type="button"
-                onClick={handleGoogleLogin}
+                onClick={handleGoogleSignup}
                 className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800"
               >
                 <svg className="w-4 h-auto" width="46" height="47" viewBox="0 0 46 47" fill="none">
@@ -55,14 +39,14 @@ export default function Login() {
                   <path d="M10.1212 28.1413C9.62245 26.6725 9.32908 25.1156 9.32908 23.5C9.32908 21.8844 9.62245 20.3275 10.0918 18.8588V18.5356L2.75765 12.8369L2.52296 12.9544C0.909439 16.1269 0 19.7106 0 23.5C0 27.2894 0.909439 30.8731 2.49362 34.0456L10.1212 28.1413Z" fill="#FBBC05"/>
                   <path d="M23.4694 9.07688C27.8699 9.07688 30.8622 10.9863 32.5344 12.5725L39.1645 6.11C35.0867 2.32063 29.8061 0 23.4694 0C14.287 0 6.36607 5.2875 2.49362 12.9544L10.0918 18.8588C11.9987 13.1894 17.25 9.07688 23.4694 9.07688Z" fill="#EB4335"/>
                 </svg>
-                Sign in with Google
+                Sign up with Google
               </button>
 
               <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-600 dark:after:border-neutral-600">
                 Or
               </div>
 
-              <form onSubmit={handleLogin}>
+              <form onSubmit={handleSignup}>
                 <div className="grid gap-y-4">
                   <div>
                     <label htmlFor="email" className="block text-sm mb-2 dark:text-white">Email address</label>
@@ -78,12 +62,7 @@ export default function Login() {
                   </div>
 
                   <div>
-                    <div className="flex justify-between items-center">
-                      <label htmlFor="password" className="block text-sm mb-2 dark:text-white">Password</label>
-                      <a className="text-sm text-blue-600 hover:underline dark:text-blue-500" href="/recover-account">
-                        Forgot password?
-                      </a>
-                    </div>
+                    <label htmlFor="password" className="block text-sm mb-2 dark:text-white">Password</label>
                     <input
                       type="password"
                       id="password"
@@ -100,6 +79,8 @@ export default function Login() {
                       id="remember-me"
                       name="remember-me"
                       type="checkbox"
+                      checked={remember}
+                      onChange={(e) => setRemember(e.target.checked)}
                       className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700"
                     />
                     <label htmlFor="remember-me" className="ms-3 text-sm dark:text-white">Remember me</label>
@@ -109,7 +90,7 @@ export default function Login() {
                     type="submit"
                     className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700"
                   >
-                    Sign in
+                    Sign up
                   </button>
                 </div>
               </form>
